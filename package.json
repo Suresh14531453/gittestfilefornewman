@@ -22,7 +22,13 @@
   "dependencies": {
     "aws-cdk-lib": "2.60.0",
     "constructs": "^10.0.0",
-    "source-map-support": "^0.5.21"
+    "source-map-support": "^0.5.21",
+    "@aws-cdk/aws-codepipeline-actions": "^1.188.0",
+    "@aws-cdk/aws-events": "^1.188.0",
+    "@aws-cdk/aws-events-targets": "^1.188.0",
+    "@aws-cdk/aws-sns": "^1.188.0",
+    "@aws-cdk/aws-sns-subscriptions": "^1.188.0"
+
   }
 }
 
