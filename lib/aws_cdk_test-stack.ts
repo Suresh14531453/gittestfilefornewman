@@ -103,7 +103,8 @@ import { SnsTopic } from 'aws-cdk-lib/aws-events-targets';
 import { EventField, RuleTargetInput } from 'aws-cdk-lib/aws-events';
 
 export class AwsCdkTestStack extends cdk.Stack {
-  pipelineNotificationsTopic: cdk.aws_sns.Topic;
+  private readonly pipelineNotificationsTopic: Topic;
+  private readonly buildFailureTopic:Topic;
 
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -208,6 +209,25 @@ export class AwsCdkTestStack extends cdk.Stack {
           },
         },
         description: "Integration test has failed by syed",
+      }
+    );
+    buildStage.onStateChange(
+      "SUCCEDED",
+      new SnsTopic(this.pipelineNotificationsTopic, {
+        message: RuleTargetInput.fromText(
+          `Build Test Failed By Syed. See details here: ${EventField.fromPath(
+            "$.detail.execution-result.external-execution-url"
+          )}`
+        ),
+      }),
+      {
+        ruleName: "SUCCEDED",
+        eventPattern: {
+          detail: {
+            state: ["SUCCEDED"],
+          },
+        },
+        description: "Integration test has SUCCESS by SURESH",
       }
     );
    
