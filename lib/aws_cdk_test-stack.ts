@@ -250,7 +250,7 @@ export class AwsCdkTestStack extends cdk.Stack {
     const snsTopicSuccess = new SnsTopic(this.pipelineNotificationsTopic, {
       message: RuleTargetInput.fromText(
         `Build Test Successful. See details here: ${EventField.fromPath(
-          "$.detail.execution-result.external-execution-url"
+          "$.detail"
         )}`
       ),
     });
