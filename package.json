@@ -27,7 +27,10 @@
     "@aws-cdk/aws-events": "^1.188.0",
     "@aws-cdk/aws-events-targets": "^1.188.0",
     "@aws-cdk/aws-sns": "^1.188.0",
-    "@aws-cdk/aws-sns-subscriptions": "^1.188.0"
+    "@aws-cdk/aws-sns-subscriptions": "^1.188.0",
+    "@aws-cdk/aws-cloudwatch": "^1.188.0",
+    "@aws-cdk/aws-codedeploy": "^1.188.0",
+    "@aws-cdk/aws-codepipeline": "^1.188.0"
 
   }
 }
