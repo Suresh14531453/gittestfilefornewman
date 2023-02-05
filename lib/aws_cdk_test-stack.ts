@@ -192,45 +192,80 @@ export class AwsCdkTestStack extends cdk.Stack {
        
       ],
     });
-    buildStage.onStateChange(
-      "FAILED",
-      new SnsTopic(this.pipelineNotificationsTopic, {
-        message: RuleTargetInput.fromText(
-          `Build Test Failed By Syed. See details here: ${EventField.fromPath(
-            "$.detail.execution-result.external-execution-url"
-          )}`
-        ),
-      }),
-      {
-        ruleName: "Failed",
-        eventPattern: {
-          detail: {
-            state: ["FAILED"],
-          },
+    // buildStage.onStateChange(
+    //   "FAILED",
+    //   new SnsTopic(this.pipelineNotificationsTopic, {
+    //     message: RuleTargetInput.fromText(
+    //       `Build Test Failed By Syed. See details here: ${EventField.fromPath(
+    //         "$.detail.execution-result.external-execution-url"
+    //       )}`
+    //     ),
+    //   }),
+    //   {
+    //     ruleName: "Failed",
+    //     eventPattern: {
+    //       detail: {
+    //         state: ["FAILED"],
+    //       },
+    //     },
+    //     description: "Integration test has failed by syed",
+    //   }
+    // );
+    // buildStage.onStateChange(
+    //   "Succeeded",
+    //   new SnsTopic(this.pipelineNotificationsTopic, {
+    //     message: RuleTargetInput.fromText(
+    //       `Build Test success. See details here: ${EventField.fromPath(
+    //         "$.detail.execution-result.external-execution-url"
+    //       )}`
+    //     ),
+    //   }),
+    //   {
+    //     ruleName: "SUCCEDED",
+    //     eventPattern: {
+    //       detail: {
+    //         state: ["SUCCEEDED"],
+    //       },
+    //     },
+    //     description: "Integration test has SUCCESS by SURESH",
+    //   }
+    // );
+    const snsTopic = new SnsTopic(this.pipelineNotificationsTopic, {
+      message: RuleTargetInput.fromText(
+        `Build Test Failed. See details here: ${EventField.fromPath(
+          "$.detail.execution-result.external-execution-url"
+        )}`
+      ),
+    });
+    
+    buildStage.onStateChange("FAILED", snsTopic, {
+      ruleName: "Failed",
+      eventPattern: {
+        detail: {
+          state: ["FAILED"],
         },
-        description: "Integration test has failed by syed",
-      }
-    );
-    buildStage.onStateChange(
-      "Succeeded",
-      new SnsTopic(this.pipelineNotificationsTopic, {
-        message: RuleTargetInput.fromText(
-          `Build Test success. See details here: ${EventField.fromPath(
-            "$.detail.execution-result.external-execution-url"
-          )}`
-        ),
-      }),
-      {
-        ruleName: "SUCCEDED",
-        eventPattern: {
-          detail: {
-            state: ["SUCCEEDED"],
-          },
+      },
+      description: "Build Test Failed",
+    });
+    const snsTopicSuccess = new SnsTopic(this.pipelineNotificationsTopic, {
+      message: RuleTargetInput.fromText(
+        `Build Test Successful. See details here: ${EventField.fromPath(
+          "$.detail.execution-result.external-execution-url"
+        )}`
+      ),
+    });
+    
+    buildStage.onStateChange("SUCCEEDED", snsTopicSuccess, {
+      ruleName: "Success",
+      eventPattern: {
+        detail: {
+          state: ["SUCCEEDED"],
         },
-        description: "Integration test has SUCCESS by SURESH",
-      }
-    );
-   
+      },
+      description: "Build Test Successful",
+    });
+    
+    
 
   }
 }
