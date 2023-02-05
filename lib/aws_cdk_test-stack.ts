@@ -211,25 +211,25 @@ export class AwsCdkTestStack extends cdk.Stack {
         description: "Integration test has failed by syed",
       }
     );
-    buildStage.onStateChange(
-      "Succeeded",
-      new SnsTopic(this.pipelineNotificationsTopic, {
-        message: RuleTargetInput.fromText(
-          `Build Test Failed By Syed. See details here: ${EventField.fromPath(
-            "$.detail.execution-result.external-execution-url"
-          )}`
-        ),
-      }),
-      {
-        ruleName: "SUCCEDED",
-        eventPattern: {
-          detail: {
-            state: ["SUCCEEDED"],
-          },
-        },
-        description: "Integration test has SUCCESS by SURESH",
-      }
-    );
+    // buildStage.onStateChange(
+    //   "Succeeded",
+    //   new SnsTopic(this.pipelineNotificationsTopic, {
+    //     message: RuleTargetInput.fromText(
+    //       `Build Test success. See details here: ${EventField.fromPath(
+    //         "$.detail.execution-result.external-execution-url"
+    //       )}`
+    //     ),
+    //   }),
+    //   {
+    //     ruleName: "SUCCEDED",
+    //     eventPattern: {
+    //       detail: {
+    //         state: ["SUCCEEDED"],
+    //       },
+    //     },
+    //     description: "Integration test has SUCCESS by SURESH",
+    //   }
+    // );
    
 
   }
