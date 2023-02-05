@@ -212,7 +212,7 @@ export class AwsCdkTestStack extends cdk.Stack {
       }
     );
     buildStage.onStateChange(
-      "SUCCEDED",
+      "Succeeded",
       new SnsTopic(this.pipelineNotificationsTopic, {
         message: RuleTargetInput.fromText(
           `Build Test Failed By Syed. See details here: ${EventField.fromPath(
@@ -224,7 +224,7 @@ export class AwsCdkTestStack extends cdk.Stack {
         ruleName: "SUCCEDED",
         eventPattern: {
           detail: {
-            state: ["SUCCEDED"],
+            state: ["SUCCEEDED"],
           },
         },
         description: "Integration test has SUCCESS by SURESH",
@@ -234,4 +234,4 @@ export class AwsCdkTestStack extends cdk.Stack {
 
   }
 }
-
+///////////////////////
