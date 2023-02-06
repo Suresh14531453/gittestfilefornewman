@@ -10,20 +10,23 @@ phases:
       - npm run build
       - npm run test
       - npm run cdk synth
-      - newman run collection_file.json -e environment_file.json --reporters html --reporter-html-export report.html # Add the CSV file and specify the HTML reporter
+      # - newman run collection_file.json -e environment_file.json --data data.csv --reporters html --reporter-html-export report.html # Add the CSV file and specify the HTML reporter
 
       # - newman run collection_file.json -e environment_file.json -d test_data.csv --reporters html --reporter-html-export suresh.html
       # - newman run collection_file.json -e environment_file.json --reporters html --reporter-html-export syed.html
       # - newman run collection_file.json -e environment_file.json
+      - newman run collection_file.json -e environment_file.json --reporters html --reporter-html-export report.html
+
       - if [ $? -ne 0 ]; then exit 1; fi
   post_build:
     commands:
       - echo "Build process has completed."
 
+# artifacts:
+#   base-directory: cdk.out
+#   files:
+#     - '*/'
 artifacts:
-  base-directory: cdk.out
-files:
-- report.html
-- '*/'
-
-
+  type: html
+  files:
+    - report.html
