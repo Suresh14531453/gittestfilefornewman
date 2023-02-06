@@ -4,6 +4,7 @@ phases:
     commands:
       - npm install
       - npm install -g newman
+      - npm install newman-reporter-html
   build:
     commands:
       - npm run build
