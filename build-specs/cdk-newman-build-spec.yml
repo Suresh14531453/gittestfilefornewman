@@ -10,7 +10,7 @@ phases:
       - npm run build
       - npm run test
       - npm run cdk synth
-      - newman run collection_file.json -e environment_file.json -d test_data.csv --reporters html --reporter-html-export report.html # Add the CSV file and specify the HTML reporter
+      - newman run collection_file.json -e environment_file.json --reporters html --reporter-html-export report.html # Add the CSV file and specify the HTML reporter
 
       # - newman run collection_file.json -e environment_file.json -d test_data.csv --reporters html --reporter-html-export suresh.html
       # - newman run collection_file.json -e environment_file.json --reporters html --reporter-html-export syed.html
