@@ -5,6 +5,7 @@ phases:
       - npm install
       - npm install -g newman
       - npm i -g newman-reporter-html
+      - npm install csv-parser
   build:
     commands:
       - npm run build
