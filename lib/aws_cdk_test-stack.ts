@@ -5,15 +5,12 @@ import { Artifact, IStage, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
 import { CloudFormationCreateUpdateStackAction, CodeBuildAction, CodeBuildActionType, GitHubSourceAction } from 'aws-cdk-lib/aws-codepipeline-actions';
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
 import { Construct } from 'constructs';
-import * as sns from '@aws-cdk/aws-sns';
 import { Topic } from "aws-cdk-lib/aws-sns";
 import { SnsTopic } from 'aws-cdk-lib/aws-events-targets';
-import { EventField, RuleTargetInput } from 'aws-cdk-lib/aws-events';
+import { RuleTargetInput } from 'aws-cdk-lib/aws-events';
 
 export class AwsCdkTestStack extends cdk.Stack {
   private readonly pipelineNotificationsTopic: Topic;
-  private readonly buildFailureTopic:Topic;
-
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
     
@@ -110,10 +107,7 @@ export class AwsCdkTestStack extends cdk.Stack {
           adminPermissions: true,
         }),
       ],
-
     });
-    
-
   }
 }
-//////////////////////////////
+
