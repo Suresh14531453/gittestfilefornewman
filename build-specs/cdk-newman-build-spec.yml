@@ -10,7 +10,8 @@ phases:
       - npm run build
       - npm run test
       - npm run cdk synth
-      - newman run collection_file.json -e data.json --reporters html --reporter-html-export report.html
+      - node csv_to_json.js
+      - newman run collection_file.json -d data.json --reporters html --reporter-html-export report.html
       - if [ $? -ne 0 ]; then exit 1; fi
   post_build:
     commands:
