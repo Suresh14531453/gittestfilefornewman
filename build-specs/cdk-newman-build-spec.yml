@@ -22,6 +22,6 @@ phases:
 
 artifacts:
   base-directory: cdk.out
-  - report.html
+files:
+- report.html
 - '*/'
-
