@@ -107,7 +107,10 @@ export class AwsCdkTestStack extends cdk.Stack {
           adminPermissions: true,
         }),
       ],
+
     });
+    
+
   }
 }
-
+//////////////////////////////
