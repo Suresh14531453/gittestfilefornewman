@@ -11,7 +11,7 @@ phases:
       - npm run test
       - npm run cdk synth
       # - newman run collection_file.json -d data.json --reporters html,cli --reporter-html-export report.html
-      - newman run collection_file.json -d test_data.csv --reporters html --reporter-html-export report.html
+      - newman run collection_file.json -d data.json --reporters html --reporter-html-export report.html
 
 
       # - newman run collection_file.json -e environment_file.json
