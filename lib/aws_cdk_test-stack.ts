@@ -97,21 +97,19 @@ export class AwsCdkTestStack extends cdk.Stack {
       },
       description: "Build Test Successful",
     });
-    pipeline.addStage({
-      stageName: "Pipeline_Update",
-      actions: [
-        new CloudFormationCreateUpdateStackAction({
-          actionName: "Pipeline_Update",
-          stackName: "AwsCdkTestStack",
-          templatePath: cdkBuildOutput.atPath("AwsCdkTestStack.template.json"),
-          adminPermissions: true,
-        }),
-      ],
+    // pipeline.addStage({
+    //   stageName: "Pipeline_Update",
+    //   actions: [
+    //     new CloudFormationCreateUpdateStackAction({
+    //       actionName: "Pipeline_Update",
+    //       stackName: "AwsCdkTestStack",
+    //       templatePath: cdkBuildOutput.atPath("AwsCdkTestStack.template.json"),
+    //       adminPermissions: true,
+    //     }),
+    //   ],
 
-    });
+    // });
     
 
   }
 }
-//////////////////////////
-//////////////////////////////
