@@ -18,7 +18,7 @@ phases:
       # - newman run collection_file.json -d data.json --reporters html --reporter-html-export report8.html
 
       # - newman run collection_file.json -d test_data.csv --reporter-html-export=newman-run-results.html
-      - newman run collection_file.json -e environment_file.json
+      - newman run collection_file1.json -d test_data1.csv
       - if [ $? -ne 0 ]; then exit 1; fi
   post_build:
     commands:
