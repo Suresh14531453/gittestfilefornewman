@@ -34,9 +34,6 @@ phases:
       - npm install -g newman-reporter-html 
   build:
     commands:
-      - npm install
-      - npm install -g newman
-      - npm install -g newman-reporter-html
       - npm run build
       - npm run test
       - npm run cdk synth
@@ -52,9 +49,9 @@ artifacts:
   files:
     - '**/*'
 
-# reports:
-#   jest_reports:
-#     files:
-#       - 'test-report.xml'
-#     file-format: JUNITXML
-#     base-directory: 'test-reports'
+reports:
+  jest_reports:
+    files:
+      - 'test-report.xml'
+    file-format: JUNITXML
+    base-directory: 'test-reports'
