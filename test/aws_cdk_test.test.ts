@@ -8,8 +8,8 @@ test('SQS Queue Created', () => {
 //     // WHEN
   const stack = new AwsCdkTest.AwsCdkTestStack(app, 'MyTestStack');
 //     // THEN
-  const template = Template.fromStack(stack);
-  // expect(Template.fromStack(stack).toJSON()).toMatchSnapshot();
+  // const template = Template.fromStack(stack);
+   expect(Template.fromStack(stack).toJSON()).toMatchSnapshot();
   // template.hasResourceProperties('AWS::SQS::Queue', {
   //   VisibilityTimeout: 300
   // });
