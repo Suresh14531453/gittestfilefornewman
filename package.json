@@ -33,6 +33,7 @@
     "csv-parser": "^3.0.0",
     "newman": "^5.3.2",
     "newman-reporter-html": "^1.0.5",
-    "source-map-support": "^0.5.21"
+    "source-map-support": "^0.5.21",
+    "jest-junit": "^12.0.0"
   }
 }
