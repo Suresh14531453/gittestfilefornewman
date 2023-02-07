@@ -7,9 +7,6 @@ phases:
       - npm install -g newman-reporter-html 
   build:
     commands:
-      - npm install
-      - npm install -g newman
-      - npm install -g newman-reporter-html
       - npm run build
       - npm run test
       - npm run cdk synth
@@ -27,5 +24,4 @@ phases:
 artifacts:
   base-directory: cdk.out
 files:
-- report.html
-- '*/'
+- '**/*'
