@@ -43,7 +43,6 @@ phases:
   post_build:
     commands:
       - aws s3 cp report8-$DATE_TIME.html s3://awscdkteststack-pipelineartifactsbucket22248f97-118rqbrpqpc5o/reports/report8-$DATE_TIME.html
-      - aws s3api put-bucket-acl --bucket awscdkteststack-pipelineartifactsbucket22248f97-118rqbrpqpc5o --acl public-read
       - echo "Build process has completed."
 
 artifacts:
