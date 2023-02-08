@@ -37,12 +37,12 @@ phases:
       - npm run build
       - npm run test
       - npm run cdk synth
-      - COMMIT_ID=$(git rev-parse HEAD)
-      - newman run collection_file1.json -d test_data1.csv --reporters html --reporter-html-export report8.html
+      - DATE_TIME=$(date +"%Y-%m-%d-%H-%M-%S")
+      - newman run collection_file1.json -d test_data1.csv --reporters html --reporter-html-export report8-$DATE_TIME.html
       - if [ $? -ne 0 ]; then exit 1; fi
   post_build:
     commands:
-      - aws s3 cp report8.html s3://awscdkteststack-pipelineartifactsbucket22248f97-118rqbrpqpc5o/reports/report8_$COMMIT_ID.html
+      - aws s3 cp report8-$DATE_TIME.html s3://awscdkteststack-pipelineartifactsbucket22248f97-118rqbrpqpc5o/reports/report8-$DATE_TIME.html
       - echo "Build process has completed."
 
 artifacts:
