@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" errors="0" time="4.345">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-02-08T04:18:01" time="4.239" tests="1">
-    <testcase classname=" SQS Queue Created" name=" SQS Queue Created" time="0.026">
+<testsuites name="jest tests" tests="1" failures="0" errors="0" time="3.884">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-02-08T04:28:21" time="3.764" tests="1">
+    <testcase classname=" SQS Queue Created" name=" SQS Queue Created" time="0.002">
     </testcase>
   </testsuite>
 </testsuites>
