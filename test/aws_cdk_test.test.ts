@@ -6,7 +6,7 @@
 test('SQS Queue Created', () => {
   const app = new cdk.App();
 //     // WHEN
-  //const stack = new AwsCdkTest.AwsCdkTestStack(app, 'MyTestStack');
+  //ssconst stack = new AwsCdkTest.AwsCdkTestStack(app, 'MyTestStack');
 //     // THEN
   // const template = Template.fromStack(stack);
   // expect(Template.fromStack(stack).toJSON()).toMatchSnapshot();

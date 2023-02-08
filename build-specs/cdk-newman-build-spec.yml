@@ -34,15 +34,20 @@ phases:
       - npm install -g newman-reporter-html 
   build:
     commands:
+      - apt-get update && apt-get install git
+      - git init
+      - git remote add origin https://github.com/Suresh14531453/gittestfilefornewman.git
+      - git fetch
       - npm run build
       - npm run test
       - npm run cdk synth
       - DATE_TIME=$(date +"%Y-%m-%d-%H-%M-%S")
-      - newman run collection_file1.json -d test_data1.csv --reporters html --reporter-html-export report8-$DATE_TIME.html
+      - COMMIT_ID=$(git rev-parse HEAD)
+      - newman run collection_file1.json -d test_data1.csv --reporters html --reporter-html-export report8-$DATE_TIME-$COMMIT_ID.html
       - if [ $? -ne 0 ]; then exit 1; fi
   post_build:
     commands:
-      - aws s3 cp report8-$DATE_TIME.html s3://awscdkteststack-pipelineartifactsbucket22248f97-118rqbrpqpc5o/reports/report8-$DATE_TIME.html
+      - aws s3 cp report8-$DATE_TIME-$COMMIT_ID.html s3://awscdkteststack-pipelineartifactsbucket22248f97-118rqbrpqpc5o/reports/report8-$DATE_TIME-$COMMIT_ID.html
       - echo "Build process has completed."
 
 artifacts:
