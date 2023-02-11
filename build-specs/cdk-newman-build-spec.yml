@@ -15,7 +15,6 @@ phases:
       - export IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-8)
       - newman run collection_file1.json -d test_data1.csv --reporters html --reporter-html-export report8-$IMAGE_TAG.html
       - if [ $? -ne 0 ]; then exit 1; fi
-      - aws codepipeline start-pipeline-execution --name newmanpipeline
   post_build:
     commands:
       - aws s3 cp report8-$IMAGE_TAG.html s3://awscdkteststack-pipelineartifactsbucket22248f97-118rqbrpqpc5o/reports/report8-$IMAGE_TAG.html
