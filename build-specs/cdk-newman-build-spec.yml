@@ -41,8 +41,8 @@ phases:
       - echo "commit will be $(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)"
       - export IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
 
-      - newman run collection_file1.json -d test_data1.csv --reporters html --reporter-html-export report8-$DATE_TIME-$IMAGE_TAG.html
-       - newman run collection_file1.json -d test_data1.csv --reporters html --reporter-html-export reporj8-$IMAGE_TAG.html
+      # - newman run collection_file1.json -d test_data1.csv --reporters html --reporter-html-export report8-$DATE_TIME-$IMAGE_TAG.html
+       - newman run collection_file1.json -d test_data1.csv --reporters html --reporter-html-export report8-$IMAGE_TAG.html
       - if [ $? -ne 0 ]; then exit 1; fi
   post_build:
     commands:
