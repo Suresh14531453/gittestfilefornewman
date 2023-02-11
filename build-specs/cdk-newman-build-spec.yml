@@ -26,6 +26,9 @@
 # files:
 # - '**/*'
 version: 0.2
+env:
+  variables:
+    IMAGE_TAG: $(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
 phases:
   install:
     commands:
@@ -37,6 +40,7 @@ phases:
       - npm run build
       - npm run test
       - npm run cdk synth
+      - export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
       - DATE_TIME=$(date +"%Y-%m-%d-%H-%M-%S")
       - echo "commit will be $(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-8)"
       - export IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-8)

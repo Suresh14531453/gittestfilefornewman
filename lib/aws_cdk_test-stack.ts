@@ -31,6 +31,8 @@ export class AwsCdkTestStack extends cdk.Stack {
       crossAccountKeys: false,
       restartExecutionOnUpdate: true,
     })
+    const result = spawnSync('git', ['log', '--format=%H', '-n', '1']);
+    const revision = result.stdout.toString().trim().substr(0, 8);
     // const s3Bucket = new Bucket(this, 'MyBucket', {
     //   bucketName: 'cdkbucket',
     //   publicReadAccess: true,
@@ -62,6 +64,12 @@ export class AwsCdkTestStack extends cdk.Stack {
           actionName: "CDK_Build",
           input: cdkSourceOutput,
           outputs: [cdkBuildOutput],
+          environmentVariables: {
+            'REVISION': {
+              value: revision,
+              type: BuildEnvironmentVariableType.PLAINTEXT
+            },
+          },
           project: new PipelineProject(this, "CdkBuildProject", {
             environment: {
               buildImage: LinuxBuildImage.STANDARD_5_0,
@@ -79,8 +87,8 @@ export class AwsCdkTestStack extends cdk.Stack {
 
       ],
     });
-    const result = spawnSync('git', ['log', '--format=%H', '-n', '1']);
-    const revision = result.stdout.toString().trim().substr(0, 7);
+    // const result = spawnSync('git', ['log', '--format=%H', '-n', '1']);
+    // const revision = result.stdout.toString().trim().substr(0, 7);
     const bucketName = 'newpipelinestack-pipelineartifactsbucket22248f97-dttshkqq1xz2';
 const reportKey = 'newpipelinestack-pipelineartifactsbucket22248f97-dttshkqq1xz2/reports';
 // const htmlReportKey = `newpipelinestack-pipelineartifactsbucket22248f97-dttshkqq1xz2.s3.ap-south-1.amazonaws.com/reports/PPL_Report-${revision}.html`;
