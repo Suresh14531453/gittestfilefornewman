@@ -8,12 +8,13 @@ import { Construct } from 'constructs';
 import { Topic } from "aws-cdk-lib/aws-sns";
 import { SnsTopic } from 'aws-cdk-lib/aws-events-targets';
 import { RuleTargetInput } from 'aws-cdk-lib/aws-events';
+import { Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 
 export class AwsCdkTestStack extends cdk.Stack {
   private readonly pipelineNotificationsTopic: Topic;
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-    
+
     this.pipelineNotificationsTopic = new Topic(
       this,
       "PipelineNotificationsTopic",
@@ -23,12 +24,18 @@ export class AwsCdkTestStack extends cdk.Stack {
     );
     this.pipelineNotificationsTopic.addSubscription(
       new EmailSubscription("sureshsahu1453@gmail.com")
-    );    
+    );
     const pipeline = new Pipeline(this, "Pipeline", {
       pipelineName: 'newmanpipeline',
       crossAccountKeys: false,
       restartExecutionOnUpdate: true,
     })
+    // const s3Bucket = new Bucket(this, 'MyBucket', {
+    //   bucketName: 'cdkbucket',
+    //   publicReadAccess: true,
+    //   encryption: BucketEncryption.S3_MANAGED,
+    //   versioned: true
+    // });
 
     const cdkSourceOutput = new Artifact("CDKSourceOutput")
     pipeline.addStage({
@@ -39,7 +46,7 @@ export class AwsCdkTestStack extends cdk.Stack {
           repo: "gittestfilefornewman",
           branch: "master",
           actionName: "Pipeline_Source",
-          oauthToken: SecretValue.secretsManager("token_access"),
+          oauthToken: SecretValue.secretsManager("git_secret_key"),
           output: cdkSourceOutput
         }
         )
@@ -47,7 +54,7 @@ export class AwsCdkTestStack extends cdk.Stack {
     })
 
     const cdkBuildOutput = new Artifact("CdkBuildOutPut")
-    const buildStage=pipeline.addStage({
+    const buildStage = pipeline.addStage({
       stageName: "build",
       actions: [
         new CodeBuildAction({
@@ -61,18 +68,23 @@ export class AwsCdkTestStack extends cdk.Stack {
             buildSpec: BuildSpec.fromSourceFilename(
               "build-specs/cdk-newman-build-spec.yml"
             ),
+            environmentVariables: {
+              'IMAGE_TAG': {
+                value: '$CODEBUILD_RESOLVED_SOURCE_VERSION'.substr(0, 7),
+              },
+            }
           }),
         }),
-       
+
       ],
     });
     const snsTopic = new SnsTopic(this.pipelineNotificationsTopic, {
       message: RuleTargetInput.fromText(
         `Build Test Failed`
       ),
-    
+
     });
-    
+
     buildStage.onStateChange("FAILED", snsTopic, {
       ruleName: "Failed",
       eventPattern: {
@@ -87,7 +99,7 @@ export class AwsCdkTestStack extends cdk.Stack {
         `Build Test Successful.`
       ),
     });
-    
+
     buildStage.onStateChange("SUCCEEDED", snsTopicSuccess, {
       ruleName: "Success",
       eventPattern: {
@@ -110,7 +122,11 @@ export class AwsCdkTestStack extends cdk.Stack {
 
     });
     ///////
-    
+    const bucket = new Bucket(this, 'MyFirstBucket', {
+      encryption: BucketEncryption.KMS,
+      bucketKeyEnabled: true,
+    });
+
 
   }
 }
