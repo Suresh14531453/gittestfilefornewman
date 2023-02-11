@@ -9,6 +9,7 @@ import { Topic } from "aws-cdk-lib/aws-sns";
 import { SnsTopic } from 'aws-cdk-lib/aws-events-targets';
 import { RuleTargetInput } from 'aws-cdk-lib/aws-events';
 import { Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
+import { spawnSync } from 'child_process';
 
 export class AwsCdkTestStack extends cdk.Stack {
   private readonly pipelineNotificationsTopic: Topic;
@@ -78,9 +79,17 @@ export class AwsCdkTestStack extends cdk.Stack {
 
       ],
     });
+    const result = spawnSync('git', ['log', '--format=%H', '-n', '1']);
+    const revision = result.stdout.toString().trim().substr(0, 7);
+    const bucketName = 'newpipelinestack-pipelineartifactsbucket22248f97-dttshkqq1xz2';
+const reportKey = 'newpipelinestack-pipelineartifactsbucket22248f97-dttshkqq1xz2/reports';
+// const htmlReportKey = `newpipelinestack-pipelineartifactsbucket22248f97-dttshkqq1xz2.s3.ap-south-1.amazonaws.com/reports/PPL_Report-${revision}.html`;
+const htmlReportKey=`awscdkteststack-pipelineartifactsbucket22248f97-118rqbrpqpc5o.s3.ap-south-1.amazonaws.com/reports/report8-${revision}.html`
+
     const snsTopic = new SnsTopic(this.pipelineNotificationsTopic, {
       message: RuleTargetInput.fromText(
-        `Build Test Failed`
+        `Build Test Failed Check the report in S3 bucket: ${bucketName}. Report file (text): ${reportKey}.
+        To Download the Report file (HTML): https://${htmlReportKey}`
       ),
 
     });
@@ -96,7 +105,8 @@ export class AwsCdkTestStack extends cdk.Stack {
     });
     const snsTopicSuccess = new SnsTopic(this.pipelineNotificationsTopic, {
       message: RuleTargetInput.fromText(
-        `Build Test Successful.`
+        `Build Test Successed Check the report in S3 bucket: ${bucketName}. Report file (text): ${reportKey}.
+      To Download the Report file (HTML): https://${htmlReportKey}`
       ),
     });
 
@@ -122,10 +132,10 @@ export class AwsCdkTestStack extends cdk.Stack {
 
     });
     ///////
-    const bucket = new Bucket(this, 'MyFirstBucket', {
-      encryption: BucketEncryption.KMS,
-      bucketKeyEnabled: true,
-    });
+    // const bucket = new Bucket(this, 'MyFirstBucket', {
+    //   encryption: BucketEncryption.KMS,
+    //   bucketKeyEnabled: true,
+    // });
 
 
   }
