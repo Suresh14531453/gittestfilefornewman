@@ -64,12 +64,6 @@ export class AwsCdkTestStack extends cdk.Stack {
           actionName: "CDK_Build",
           input: cdkSourceOutput,
           outputs: [cdkBuildOutput],
-          environmentVariables: {
-            'REVISION': {
-              value: revision,
-              type: BuildEnvironmentVariableType.PLAINTEXT
-            },
-          },
           project: new PipelineProject(this, "CdkBuildProject", {
             environment: {
               buildImage: LinuxBuildImage.STANDARD_5_0,
@@ -93,12 +87,11 @@ export class AwsCdkTestStack extends cdk.Stack {
 const reportKey = 'newpipelinestack-pipelineartifactsbucket22248f97-dttshkqq1xz2/reports';
 // const htmlReportKey = `newpipelinestack-pipelineartifactsbucket22248f97-dttshkqq1xz2.s3.ap-south-1.amazonaws.com/reports/PPL_Report-${revision}.html`;
 const htmlReportKey=`awscdkteststack-pipelineartifactsbucket22248f97-118rqbrpqpc5o.s3.ap-south-1.amazonaws.com/reports/report8-${revision}.html`
-const currentGitId = execSync('git rev-parse HEAD').toString().trim();
 
     const snsTopic = new SnsTopic(this.pipelineNotificationsTopic, {
 
       message: RuleTargetInput.fromText(
-        `Build Test Failed Check the report in S3 bucket: ${bucketName}. Report file (text): ${reportKey} git commit id is ${currentGitId}.
+        `Build Test Failed Check the report in S3 bucket: ${bucketName}. Report file (text): ${reportKey} git commit id is.
         To Download the Report file (HTML): https://${htmlReportKey}`
       ),
 

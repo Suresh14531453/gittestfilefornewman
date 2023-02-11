@@ -1,7 +1,4 @@
 version: 0.2
-env:
-  variables:
-    IMAGE_TAG: $(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
 phases:
   install:
     commands:
